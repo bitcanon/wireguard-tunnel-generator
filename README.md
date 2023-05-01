@@ -12,66 +12,65 @@ The script will produce both the RouterOS configuration required as well as a QR
 
 ## 🕹 Demo Applications
 ### Demo 1: Example Output
-Here is a small command-line demo application showing the information that can be obtained from the device.
+Here is a small command-line demo showing the WireGuard Tunnel Generator script in action.
 
-![SmartMeter CLI Demo](https://github.com/bitcanon/elnasmartmeter/blob/main/docs/img/elna-cli-application.gif)
-
-The source code is available here: [powerping-demo.py](https://github.com/bitcanon/elnasmartmeter/blob/main/examples/powerping-demo.py).
+![CLI Demo](docs/img/wireguard-tunnel-generator-demo.gif)
 
 ## 💻 Installation
-Setup the virtual environment:
+Download the script from GitHub and place in inside your home directory.
+
+The script needs three packages in order to operate smoothly:
 ```
-virtualenv venv
-source venv/bin/activate
+sudo apt install ipcalc-ng wireguard-tools qrencode
 ```
 
-Install the latest version with `pip`:
-```
-pip install elnasmartmeter
-```
+1. `ipcalc-ng` is used to validate IP adress input.
+2. `wireguard-tools` is used to generate private/public key pair.
+3. `qrencode` is used to encode the WireGuard configuration into a QR code.
+
+>The script has only been tested on Debian but might work on other operating systems as well.
 
 ## 📚 Basics
-### Setup
-In order to use the library you need to know the IP address of the Elna device. You can find it in the DHCP server of your router (or wherever you are running your DHCP server). The MAC address of Elna is printed on the back of the device.
+### Parameters
+The script accepts parameters which you use to define the WireGuard configuration for each client deployed:
+```bash
+Usage:
+  ./wg-tunnel-generator.sh [options] <mobile_peer_ip>
 
-```python
-from elna import smartmeter
-
-# Connect the library to the Elna device
-meter = smartmeter.Connect('192.168.0.10')
-
-# Get general information
-info = meter.get_info()
-
-# Get power readings
-electricity = meter.get_electricity()
-
-# Get WLAN information
-wlan = meter.get_wlan_info()
+Options:
+  <mobile_peer_ip>    Mobile peer IP address in CIDR notation, ie. 10.0.0.2/32
+  -a <subnet,...>     One or more IP subnet(s) to be routed through the tunnel
+  -d <dns,...>        One or more DNS server(s) to be used by the mobile client
+  -e <host[:port]>    WireGuard endpoint on the firewall, ie. fw.example.com:13231
+  -h                  Print this help and exit
+  -n <name>           Descriptive name for the mobile client
+  -p <public_key>     Public key of the WireGuard interface on the firewall
+  -v                  Print verbose debugging information
 ```
-It's as simple as that to fetch the power consuption/production of your household. In a moment we will be looking at how to access the information via the `info` and `electricity` objects.
+The only parameter required is `<mobile_peer_ip>`, which is the IP address to be assigned to the client; all other parameters (options) have default values that will be used if not provided by your when running the script. *But, these are simply testing values that you will want to override.*
 
-### Exceptions
-All of the methods callable from the library will throw exceptions on failure. A full list of exceptions can be found [here](https://github.com/bitcanon/elnasmartmeter/blob/master/elnasmartmeter/exceptions.py).
-```python
-from elna import smartmeter
-from elna.exceptions import *
-...
-try:
-    info = meter.get_info()
-except NewConnectionError as e:
-    print(e)
+Example:
+```bash
+./wg-tunnel-generator.sh -n my-phone -a 10.50.0.0/16 -d 1.1.1.1,8.8.8.8 -e vpn.example.com:13231 -p "fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM=" 10.50.50.2/32
 ```
 
-### Printing Objects and Properties
-The objects representing various entities in the library can be output with the `print()` method for easy inspection of its properties.
+### Change the Defaults
+The default option values above can be modified simply by editing `wg-tunnel-generator.sh`. This can be handy if you don't want to pass parameters every time you need to deploy a new road warrior.
 
-As an example, you can output the properties of an `Information` object by passing it to the `print()` method:
-```python
-print(info)
-# Output: <class 'elna.classes.Information'>: {'id': '01ab:0200:00cd:03ef', 'manufacturer': 'NET2GRID', 'model': 'SBWF4602', 'firmware': '1.7.14', 'hardware': 1, 'batch': 'HMX-P0D-123456'}
+```bash
+# Pre-defined parameter values
+ALLOWED_IPS="0.0.0.0/0"
+DNS="1.0.0.1,1.1.1.1"
+ENDPOINT="fw.example.com:13231"
+FW_PRIVATE_KEY="0"
+FW_PUBLIC_KEY="0"
+IP_ADDR=""
+NAME="mobile-phone"
+VERBOSE=false
 ```
-The same goes for all classes in the library: `Information`, `Electricity`, `Power` and `WLANInformation`.
+
+### Some more stuff
+The...
 
 ## 💾 Access the Data
 There are two pieces of data that can be fetched with this library: general device `Information` and `Power` statistics.
