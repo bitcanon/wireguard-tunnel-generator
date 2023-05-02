@@ -61,11 +61,22 @@ The default options above can be modified simply by editing `wg-tunnel-generator
 ALLOWED_IPS="0.0.0.0/0"
 DNS="1.0.0.1,1.1.1.1"
 ENDPOINT="fw.example.com:13231"
-FW_PRIVATE_KEY="0"
 FW_PUBLIC_KEY="0"
-IP_ADDR=""
 NAME="mobile-phone"
-VERBOSE=false
+```
+
+To simplify the example in the last section we can change the variables to:
+```bash
+# Pre-defined parameter values
+ALLOWED_IPS="10.50.0.0/16"
+DNS="1.1.1.1,8.8.8.8"
+ENDPOINT="vpn.example.com:13231"
+FW_PUBLIC_KEY="fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM"
+NAME="mobile-phone"
+```
+No we can run the following command and still get the same result:
+```bash
+./wg-tunnel-generator.sh -n my-phone 10.50.50.2/32
 ```
 
 ## 💾 Running the Script
