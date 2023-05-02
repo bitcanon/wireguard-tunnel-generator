@@ -74,7 +74,7 @@ ENDPOINT="vpn.example.com:13231"
 FW_PUBLIC_KEY="fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM"
 NAME="mobile-phone"
 ```
-No we can run the following command and still get the same result:
+Now we can run the following command and still get the same result:
 ```bash
 ./wg-tunnel-generator.sh -n my-phone 10.50.50.2/32
 ```
@@ -106,3 +106,7 @@ There are two ways to change this behavior:
 
 ## 💾 Running the Script
 More to come...
+1. Explain the output.
+2. Where are the files stored.
+3. What to do with the RouterOS output.
+4. How to configure the WireGuard iOS app.
