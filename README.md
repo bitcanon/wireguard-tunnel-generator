@@ -72,8 +72,18 @@ VERBOSE=false
 ### Some more stuff
 The...
 
-## 💾 Access the Data
-There are two pieces of data that can be fetched with this library: general device `Information` and `Power` statistics.
+## 💾 Running the Script
+One thing to keep in mind when running the script is whether a **WireGuard Interface** has been configured on the router. This is important because the interface only need to be created once. It's during the interface creation that a private/public key pair is generated.
+
+When the interface is already configured you need to get the public key from the configuration in RouterOS.
+
+WinBox:
+- Go to WireGuard and open `wg_mobile` in the WireGuard tab.
+
+Terminal:
+- Run `:put ([/interface/wireguard/get wg_mobile ]->"public-key")`.
+
+>Assuming the name of the WireGuard interface is `wg_mobile`.
 
 ### Device Information
 To get the general device information we just call the `get_info()` method.
