@@ -79,7 +79,7 @@ No we can run the following command and still get the same result:
 ./wg-tunnel-generator.sh -n my-phone 10.50.50.2/32
 ```
 
-## 💾 Running the Script
+## 💾 WireGuard Interface Configuration
 One thing to keep in mind when running the script is whether a **WireGuard Interface** has been configured on the router or not.
 
 This is important because the interface only need to be created once. It's during the interface creation that a private/public key pair is generated.
@@ -103,3 +103,6 @@ When the interface doesn't exists you can let the script generate the configurat
 There are two ways to change this behavior:
 1. Pass the **public key** as an argument to the script: `-p "fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM="`
 2. Set the variable `FW_PUBLIC_KEY` to the public key you got from the WireGuard interface in RouterOS, for instance `FW_PUBLIC_KEY=fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM=`.
+
+## 💾 Running the Script
+More to come...
