@@ -127,7 +127,7 @@ As an example, this command:
 ```bash
 ./wg-tunnel-generator.sh -n my-phone 10.50.50.2/32
 ```
-Will generate this WireGuard configuration:
+Will save the WireGuard configuration in the file `./configs/my-phone.conf`:
 ```bash
 [Interface]
 Address = 10.50.50.2/32
@@ -141,10 +141,20 @@ PresharedKey = 0zQbfFxCWf+v3j0uiaS+ozAPDdwRHIQktAjnMcST9wo=
 AllowedIPs = 0.0.0.0/0
 ```
 
-And, save it into the file `./configs/my-phone.conf`.
+### QR Code
+The configuration in the **WireGuard Configuration** section above will also be encoded into a QR code using the `qrencode` utility.
 
+This QR code will:
+1. Be printed as text in the **terminal** for instant use.
+2. Saved into a **PNG image** file `./configs/my-phone.png`. 
 
-1. Explain the output.
-2. Where are the files stored.
-3. What to do with the RouterOS output.
-4. How to configure the WireGuard iOS app.
+### RouterOS Configuration
+The RouterOS configuration needed in order to get the tunnel up and running will also be available for you.
+
+The configuration will:
+1. Be printed as text in the **terminal** for instant use; just copy and paste into RouterOS.
+2. Saved into a **RouterOS Script** file `./configs/my-phone.rsc`. 
+
+## Further Reading
+For more information on how to setup a WireGuard Tunnel between a mobile device and MikroTik RouterOS:
+* https://help.mikrotik.com/docs/display/ROS/WireGuard#WireGuard-RoadWarriorWireGuardtunnel
