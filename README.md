@@ -114,10 +114,34 @@ Every time the script is run we:
 1. Generate new private/public keys for the mobile client.
 2. Generate a new shared secret. This is a random string of characters (Base64 encoded).
 
-### Router Secrets
+### RouterOS Secrets
 Every time the script:
 1. Is run **without** `-p`, a new private/public key pair is generated.
-2. Is run **with** `-p`, the existing private/public key pair generated in RouterOS, is used. The same goes when the variable `FW_PUBLIC_KEY` is set as described above. Here it is worth noting that the private key never has to get involved in the script, only the public key.
+2. Is run **with** `-p`, the existing private/public key pair generated in RouterOS, is used. The same goes when the variable `FW_PUBLIC_KEY` is set as described above.
+>The private and public keys of the firewall is only created once and then used by all clients.
+
+### WireGuard Configuration
+The WireGuard configuration to be imported into the WireGuard client is exported into a configuration file with the name provided by the `-n` argument.
+
+As an example, this command:
+```bash
+./wg-tunnel-generator.sh -n my-phone 10.50.50.2/32
+```
+Will generate this WireGuard configuration:
+```bash
+[Interface]
+Address = 10.50.50.2/32
+PrivateKey = 4NhTvZkoPoUyG4Vc6bVA6bnqaH+2pyWioJr5mXiDMFw=
+DNS = 1.0.0.1,1.1.1.1
+
+[Peer]
+PublicKey = fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM=
+Endpoint = fw.example.com:13231
+PresharedKey = 0zQbfFxCWf+v3j0uiaS+ozAPDdwRHIQktAjnMcST9wo=
+AllowedIPs = 0.0.0.0/0
+```
+
+And, save it into the file `./configs/my-phone.conf`.
 
 
 1. Explain the output.
