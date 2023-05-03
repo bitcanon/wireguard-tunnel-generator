@@ -79,10 +79,10 @@ Now we can run the following command and still get the same result:
 ./wg-tunnel-generator.sh -n my-phone 10.50.50.2/32
 ```
 
-## 💾 WireGuard Interface Configuration
+## 🖧 WireGuard Interface Configuration
 One thing to keep in mind when running the script is whether a **WireGuard Interface** has been configured on the router or not.
 
-This is important because we only need one interface for the WireGuard endpoint on the router (well, at least one interface per subnet). 
+This is important because we only need one interface for the WireGuard endpoint on the router (assuming that all VPN clients are put on the same subnet). 
 
 If the interface is created from RouterOS, the private/public key pair is generated automatically. If not, just let the script create the configuration for you.
  
@@ -106,8 +106,20 @@ There are two ways to change this behavior:
 1. Pass the **public key** as an argument to the script: `-p "fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM="`
 2. Set the variable `FW_PUBLIC_KEY` to the public key you got from the WireGuard interface in RouterOS, for instance `FW_PUBLIC_KEY=fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM=`.
 
-## 💾 Running the Script
-More to come...
+## 🕹️ Running the Script
+When the script is run there are a few things that are happening.
+
+### Client Secrets
+Every time the script is run we:
+1. Generate new private/public keys for the mobile client.
+2. Generate a new shared secret. This is a random string of characters (Base64 encoded).
+
+### Router Secrets
+Every time the script:
+1. Is run **without** `-p`, a new private/public key pair is generated.
+2. Is run **with** `-p`, the existing private/public key pair generated in RouterOS, is used. The same goes when the variable `FW_PUBLIC_KEY` is set as described above. Here it is worth noting that the private key never has to get involved in the script, only the public key.
+
+
 1. Explain the output.
 2. Where are the files stored.
 3. What to do with the RouterOS output.
