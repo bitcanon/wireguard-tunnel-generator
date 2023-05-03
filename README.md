@@ -46,8 +46,7 @@ Options:
   -p <public_key>     Public key of the WireGuard interface on the firewall
   -v                  Print verbose debugging information
 ```
-The only parameter required is `<mobile_peer_ip>`, which is the IP address to be assigned to the client; all other parameters (options) have default values that will be used if not provided when running the script. *But, these are simply testing values that you will want to override.*
-
+The only required parameter is `<mobile_peer_ip>`, which is the IP address to be assigned to the client; all other parameters (options) have **default values** that will be used if not overridden by the parameters passed to the script. Read more about *default values* in the upcoming section.
 Example:
 ```bash
 ./wg-tunnel-generator.sh -n my-phone -a 10.50.0.0/16 -d 1.1.1.1,8.8.8.8 -e vpn.example.com:13231 -p "fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM=" 10.50.50.2/32
@@ -55,6 +54,8 @@ Example:
 
 ### Change the Defaults
 The default options above can be modified simply by editing `wg-tunnel-generator.sh`. This can be handy if you don't want to pass parameters every time you need to deploy a new road warrior.
+
+Most often the same settings will be used for all mobile clients and the only parameters we need to pass to the script is the `name` and the `mobile_peer_ip` address.
 
 ```bash
 # Pre-defined parameter values
