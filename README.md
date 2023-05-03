@@ -82,23 +82,25 @@ Now we can run the following command and still get the same result:
 ## 💾 WireGuard Interface Configuration
 One thing to keep in mind when running the script is whether a **WireGuard Interface** has been configured on the router or not.
 
-This is important because the interface only need to be created once. It's during the interface creation that a private/public key pair is generated.
+This is important because we only need one interface for the WireGuard endpoint on the router (well, at least one interface per subnet). 
+
+If the interface is created from RouterOS, the private/public key pair is generated automatically. If not, just let the script create the configuration for you.
  
 ### WireGuard Interface is configured
 
-When the interface is already configured you need to get the public key from the configuration in RouterOS.
+When the interface is pre-configured you need to get the **public key** from the configuration in RouterOS.
 
 **WinBox**:
-- Go to WireGuard and open the `wg_mobile` interface in the WireGuard tab.
+- Go to WireGuard, open the `wg_mobile` interface in the WireGuard tab and *copy the public key*.
 
 **Terminal**:
-- Run the command `:put ([/interface/wireguard/get wg_mobile ]->"public-key")`.
+- Run the command `:put ([/interface/wireguard/get wg_mobile ]->"public-key")` and *copy the public key*.
 
->Assuming the name of the WireGuard interface is `wg_mobile`.
+>Here we assume that the name of the WireGuard interface is `wg_mobile`.
 
 ### WireGuard Interface need to be configured
 
-When the interface doesn't exists you can let the script generate the configuration for you. This is the default behavior when running the script and is shown in the demo above.
+When the interface doesn't exists you can have the script generate the configuration for you; this is the *default behavior* of the script and is also demonstrated in the example screenshot at the top.
 
 There are two ways to change this behavior:
 1. Pass the **public key** as an argument to the script: `-p "fb4r8zxzstQ+/GxULwnqW9mqDF3YrBT2SvcEHyXqoWM="`
